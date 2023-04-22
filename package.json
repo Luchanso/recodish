@@ -1,0 +1,13 @@
+{
+    "name": "recodish",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "build": "tsc"
+    },
+    "dependencies": {
+        "@tensorflow/tfjs": "^4.4.0",
+        "typescript": "^5.0.4"
+    }
+}
