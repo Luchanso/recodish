@@ -5,12 +5,16 @@
     "license": "MIT",
     "scripts": {
         "build": "tsc",
-        "dev": "yarn build && node build/index"
+        "dev": "yarn build && node build/index",
+        "ini": "prisma init --datasource-provider sqlite"
     },
     "dependencies": {
         "@tensorflow/tfjs": "^4.4.0",
         "@tensorflow/tfjs-node": "^4.4.0",
         "@tensorflow/tfjs-node-gpu": "^4.4.0",
+        "@types/node": "^18.16.0",
+        "dotenv": "^16.0.3",
+        "prisma": "^4.13.0",
         "typescript": "^5.0.4"
     }
 }
