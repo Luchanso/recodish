@@ -10,7 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model KeyVal {
+  name  String @unique
+  value String
+}
+
 model Match {
-  id        String   @id
-  startTime DateTime
+  id          String   @id
+  startTime   DateTime
+  radiantWin  Boolean
+  duration    Int
+  teamRadient Bytes    @map("team1")
+  teamDire    Bytes    @map("team2")
+
+  @@index([teamRadient])
+  @@index([teamDire])
 }

@@ -6,7 +6,7 @@
     "scripts": {
         "build": "tsc",
         "dev": "yarn build && node build/index",
-        "ini": "prisma init --datasource-provider sqlite"
+        "start": "yarn ts-node src/loader"
     },
     "dependencies": {
         "@tensorflow/tfjs": "^4.4.0",
@@ -16,5 +16,9 @@
         "dotenv": "^16.0.3",
         "prisma": "^4.13.0",
         "typescript": "^5.0.4"
+    },
+    "devDependencies": {
+        "@prisma/client": "^4.13.0",
+        "ts-node": "^10.9.1"
     }
 }
