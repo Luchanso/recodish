@@ -16,13 +16,24 @@ model KeyVal {
 }
 
 model Match {
-  id          String   @id
-  startTime   DateTime
-  radiantWin  Boolean
-  duration    Int
-  teamRadient Bytes    @map("team1")
-  teamDire    Bytes    @map("team2")
+  id        String   @id
+  startTime DateTime
+  duration  Int
+  teams     Team[]
+}
 
-  @@index([teamRadient])
-  @@index([teamDire])
+model Team {
+  id   String  @id @default(cuid())
+  win  Boolean
+  // Dire, Radient
+  side String
+
+  hero1 Int
+  hero2 Int
+  hero3 Int
+  hero4 Int
+  hero5 Int
+
+  Match   Match  @relation(fields: [matchId], references: [id])
+  matchId String
 }

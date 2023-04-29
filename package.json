@@ -6,7 +6,7 @@
     "scripts": {
         "build": "tsc",
         "dev": "yarn build && node build/index",
-        "start": "yarn ts-node src/loader"
+        "load": "yarn ts-node src/load/load"
     },
     "dependencies": {
         "@tensorflow/tfjs": "^4.4.0",
