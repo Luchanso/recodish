@@ -1,5 +1,5 @@
 const BASE_PATH = "https://api.steampowered.com/IDOTA2Match_570";
-const MATCHES_REQUESTED = 2;
+const MATCHES_REQUESTED = 100;
 
 /**
  * Return match list URL
@@ -7,7 +7,7 @@ const MATCHES_REQUESTED = 2;
  * @returns URL string
  */
 export const getMatchHistory = () =>
-    `${BASE_PATH}/GetMatchHistory/v1?key=${process.env.STEAM_API_KEY}&matches_requested=${MATCHES_REQUESTED}&min_players=10&tournament_games_only=1`;
+    `${BASE_PATH}/GetMatchHistory/v1?key=${process.env.STEAM_API_KEY}&matches_requested=${MATCHES_REQUESTED}&min_players=10&tournament_games_only=1&game_mode=22`;
 
 /**
  * Return match details URL

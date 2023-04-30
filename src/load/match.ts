@@ -5,9 +5,49 @@ export type PicksBans = {
     order: number;
 };
 
+export type Player = {
+    account_id: number;
+    player_slot: number;
+    team_number: number;
+    team_slot: number;
+    hero_id: number;
+    item_0: number;
+    item_1: number;
+    item_2: number;
+    item_3: number;
+    item_4: number;
+    item_5: number;
+    backpack_0: number;
+    backpack_1: number;
+    backpack_2: number;
+    item_neutral: number;
+    kills: number;
+    deaths: number;
+    assists: number;
+    leaver_status: number;
+    last_hits: number;
+    denies: number;
+    gold_per_min: number;
+    xp_per_min: number;
+    level: number;
+    net_worth: number;
+    aghanims_scepter: number;
+    aghanims_shard: number;
+    moonshard: number;
+    hero_damage: number;
+    tower_damage: number;
+    hero_healing: number;
+    gold: number;
+    gold_spent: number;
+    scaled_hero_damage: number;
+    scaled_tower_damage: number;
+    scaled_hero_healing: number;
+    ability_upgrades: any[];
+};
+
 export type Match = {
     result: {
-        players: any[];
+        players: Player[];
         radiant_win: boolean;
         duration: number;
         pre_game_duration: number;

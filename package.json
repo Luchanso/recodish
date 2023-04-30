@@ -13,12 +13,14 @@
         "@tensorflow/tfjs-node": "^4.4.0",
         "@tensorflow/tfjs-node-gpu": "^4.4.0",
         "@types/node": "^18.16.0",
+        "debug": "^4.3.4",
         "dotenv": "^16.0.3",
         "prisma": "^4.13.0",
         "typescript": "^5.0.4"
     },
     "devDependencies": {
         "@prisma/client": "^4.13.0",
+        "@types/debug": "^4.1.7",
         "ts-node": "^10.9.1"
     }
 }

@@ -4,34 +4,23 @@ import { PrismaClient } from "@prisma/client";
 import { Matches } from "./matches";
 import { Match } from "./match";
 import { getMatchDetails, getMatchHistory } from "./urls";
+import debug from "debug";
+import { getTeams } from "./getTeams";
+import { promiseChain } from "./promiseChain";
 
 const prisma = new PrismaClient();
 
-const toJson = (response: Response) => response.json();
+const fetchDebug = debug("app:fetch");
+const appDebug = debug("app");
 
-function getTeams(match: Match) {
-    const teamRadient: number[] = [];
-    const teamDire: number[] = [];
-
-    match.result.picks_bans.forEach(({ hero_id, team }) => {
-        if (team === 0) {
-            teamRadient.push(hero_id);
-        } else {
-            teamDire.push(hero_id);
-        }
-    });
-
-    return {
-        teamRadient: Buffer.from(teamRadient),
-        teamDire: Buffer.from(teamDire),
-    };
-}
+const toJson = (response: Response) => response.json().catch(fetchDebug);
 
 async function main() {
-    ``;
     const matches: Matches = await fetch(getMatchHistory()).then(toJson);
 
-    const actions = matches.result.matches.map(async ({ match_id }) => {
+    fetchDebug("getMatchHistory", matches);
+
+    const actions = matches.result.matches.map(({ match_id }) => async () => {
         const id = match_id.toString();
         const existedMatch = await prisma.match.findFirst({
             where: {
@@ -40,29 +29,39 @@ async function main() {
         });
 
         if (existedMatch) {
-            console.log(`db: match existed, ${id}`);
+            appDebug("match existed", id);
             return;
         }
 
         const match: Match = await fetch(getMatchDetails(id)).then(toJson);
+        fetchDebug("getMatchDetails", { id, match });
 
-        const teams = getTeams(match);
-
-        console.log(`db: create match, ${id}`);
+        const teamsHeroes = getTeams(match);
 
         await prisma.match.create({
             data: {
                 id,
-                teamDire: teams.teamDire,
-                teamRadient: teams.teamRadient,
                 duration: match.result.duration,
-                radiantWin: match.result.radiant_win,
                 startTime: new Date(match.result.start_time),
+                teams: {
+                    create: [
+                        {
+                            ...teamsHeroes.radient,
+                            side: "Radient",
+                            win: match.result.radiant_win,
+                        },
+                        {
+                            ...teamsHeroes.dire,
+                            side: "Dire",
+                            win: !match.result.radiant_win,
+                        },
+                    ],
+                },
             },
         });
     });
 
-    await Promise.all(actions);
+    await promiseChain(actions);
 }
 
 main()
@@ -70,7 +69,7 @@ main()
         await prisma.$disconnect();
     })
     .catch(async (e) => {
-        console.error(e);
+        console.trace(e);
         await prisma.$disconnect();
         process.exit(1);
     });
